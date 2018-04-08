@@ -7,31 +7,53 @@
 /* 统计输入单词的次数 */
 #include <iostream>
 #include <algorithm>
-#include <vector>
-#include <string>
+#include <map>
+//g++ -std=c++11 dijkstra.cpp -o dijkstra
+
 using namespace std;
 
-/*两个vector
-* 或者map??*/
+//统计每个单词出现的个数
 int main()
 {    
-    string str;
-    vector<string> vs;
-    vector<int> count;
 
-    while(cin >> str)
+    map<string, int> word_count;
+    map<string, int>::iterator iter;
+    map<string, int>::iterator begin = word_count.begin();
+    map<string, int>::iterator end = word_count.end();
+
+    string word;
+
+    while(cin >> word)
     {
-        vs.push_back(str);
-    }
-
-    vector<string>::size_type size = vs.size();
-
-    for(int i = 0; i < size; i++)
-    {
-        
+        ++word_count[word];
     }
 
 
+    /*
+    for(iter = begin; iter != end; iter++)
+    {
+        cout << iter->first << " " << iter->second << endl;
+    }
+*/
+    /*
+    for(iter = word_count.begin(); iter != word_count.end(); iter++)
+    {
+        cout << iter->first << " " << iter->second << endl;
+    }
+    */
+
+    
+    for(const auto & wr : word_count)
+    {
+        cout << wr.first << " " << wr.second << endl;
+    }
+
+    /*
+    string str = "ascdefg";
+    for(const auto & ch : str)
+    {
+        cout << ch <<endl;
+    }*/
 
     return 0;
 }
