@@ -8,8 +8,8 @@
 #include <iostream>
 #include <algorithm>
 #include <map>
-//g++ -std=c++11 dijkstra.cpp -o dijkstra
 
+//leetcode 697 map 数组最大度的最小长度
 using namespace std;
 
 //统计每个单词出现的个数
@@ -41,12 +41,25 @@ int main()
         cout << wr.first << " " << wr.second << endl;
     }
 
-    /*
+
     string str = "ascdefg";
     for(const auto & ch : str)
     {
         cout << ch <<endl;
-    }*/
+        if(ch == 'a')
+            cout << "chchchchchch" << endl;
+    }
 
     return 0;
 }
+
+
+
+
+/*
+    map<char, int> mp;
+    mp['X'] = 5;
+
+    map<string, int>mm;
+    mm["asd"] = 10;
+*/
