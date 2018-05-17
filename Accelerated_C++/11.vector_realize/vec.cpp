@@ -27,8 +27,9 @@ using namespace std;
 
 
 //push_back
+//erase
 //clear
-//back_inserter()
+//back_inserter()          剩下这个实现, 源码
 
 //类的创建 赋值 销毁
 vector<int>v;
@@ -49,7 +50,6 @@ public:
     ~vec(){ uncreate(); }
 
 
-
     //赋值运算符重载函数
     //vec<T>& vec<T>::operator=(const vec& rhs); //类外这样写 必须有<T>
     vec& operator=(const vec &rhs);
@@ -68,6 +68,50 @@ public:
             grow();
         unchecked_append(val);   //将新增加的元素添加到末端
     }
+
+    //删除操作
+    iterator erase(iterator it)
+    {
+        //如果不等与最后一个元素的位置 end-1
+        //那么将后面的元素都复制前来
+        //删除最后一个位置
+        //返回当前位置
+        if (it != end()-1)
+            uninitialized_copy(it + 1, limit, it);
+        --limit;
+
+        alloc.destroy(limit);
+        return it;
+    }
+
+    void clear()
+    {
+        uncreate();
+    }
+
+
+
+
+/*
+ *iterator erase(iterator __position) {
+ *
+ *  if (__position + 1 != end())
+ *
+ *    copy(__position + 1, _M_finish, __position);
+ *
+ *  --_M_finish;
+ *
+ *  destroy(_M_finish);
+ *
+ *  return __position;
+ *}
+ *
+ */
+
+
+
+
+
 
 private:
     //T* data;  //vec首元素
@@ -135,7 +179,7 @@ template <class T> void vec<T>::uncreate()
             alloc.destroy(--it);
 
         //返回占用的所有内存空间
-        alloc.deallocate(data, limit - data);
+        alloc.deallocate(data, limit - data);  //一个是allocate返回指针,一个是内存块大小
     }
     //重置指针以表明vec类型对象为空
     data = limit = avail = 0;
@@ -180,6 +224,8 @@ vec<T>& vec<T>::operator=(const vec& rhs)
     }
     return *this;
 }
+
+
 int main()
 {
     vec<int> s;
@@ -189,6 +235,9 @@ int main()
     s.push_back(8);
     s.push_back(9);
 
+    cout << *s.erase(s.end()-1);
+
+    s.clear();
     for(vec<int>::iterator it = s.begin(); it != s.end(); it++)
     {
         cout << *it << endl;
@@ -196,6 +245,7 @@ int main()
 
     return 0;
 }
+
 
 /*
  内存管理
@@ -215,6 +265,7 @@ void uninitialized_fill(T*, T*, const T&);  //对allocate分配内存某一区�
 T* uninitialized_copy(T*, T*, T*);          //将前两个地址内容复制到第三个内存块中
 */
 
+/*
 
     //复制构造函数   从一个已经存在的对象中"复制"每个元素到新的对象中
     //但是这里就有了浅拷贝和深拷贝的问题(当成员变量有指针的时候)
@@ -229,3 +280,4 @@ T* uninitialized_copy(T*, T*, T*);          //将前两个地址内容复制到�
  *    //并且.如果定义了这样一个构造函数,那么编译器只有在用户显示的使用
  *    //构造函数才会有作用 如: vec v(100)
  *    //而像这样 vec v = 100 错误
+ */
